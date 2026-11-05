@@ -22,9 +22,9 @@
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage",
-    "db:migrate": "tsx src/database/cli.ts migrate",
-    "db:rollback": "tsx src/database/cli.ts rollback",
-    "db:seed": "tsx src/database/cli.ts seed"
+    "db:migrate": "tsx --env-file-if-exists=.env src/database/cli.ts migrate",
+    "db:rollback": "tsx --env-file-if-exists=.env src/database/cli.ts rollback",
+    "db:seed": "tsx --env-file-if-exists=.env src/database/cli.ts seed"
   },
   "dependencies": {
     "@nestjs/common": "^12.3.3",
