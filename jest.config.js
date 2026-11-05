@@ -1,0 +1,14 @@
+export default {
+  rootDir: 'src',
+  testEnvironment: 'node',
+  testRegex: '.*\\.spec\\.ts$',
+  extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
+  transform: {
+    '^.+\\.ts$': ['ts-jest', { useESM: true, tsconfig: '<rootDir>/../tsconfig.json' }],
+  },
+  collectCoverageFrom: ['**/*.service.ts', '**/*.filter.ts'],
+  coverageDirectory: '../coverage',
+};
