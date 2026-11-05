@@ -5,6 +5,7 @@ import { ValidationPipe } from './common/pipes/validation.pipe.js';
 import { AppConfigModule } from './config/app-config.module.js';
 import { DatabaseModule } from './database/database.module.js';
 import { LinksModule } from './links/links.module.js';
+import { RedirectModule } from './redirect/redirect.module.js';
 import { RedisModule } from './redis/redis.module.js';
 
 @Module({
@@ -13,6 +14,7 @@ import { RedisModule } from './redis/redis.module.js';
     DatabaseModule,
     RedisModule,
     LinksModule,
+    RedirectModule,
     RouterModule.register([{ path: 'api', children: [LinksModule] }]),
   ],
   providers: [
