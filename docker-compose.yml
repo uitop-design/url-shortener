@@ -1,0 +1,65 @@
+name: url-shortener
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: url-shortener-postgres
+    environment:
+      POSTGRES_USER: shortener
+      POSTGRES_PASSWORD: shortener
+      POSTGRES_DB: shortener
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U shortener -d shortener']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    container_name: url-shortener-redis
+    ports:
+      - '6380:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      target: runtime
+    image: url-shortener-app
+    container_name: url-shortener-migrate
+    environment:
+      DATABASE_URL: postgresql://shortener:shortener@postgres:5432/shortener
+    command: sh -c "node dist/database/cli.js migrate && node dist/database/cli.js seed"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  app:
+    image: url-shortener-app
+    container_name: url-shortener-app
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      BASE_URL: http://localhost:3100
+      DATABASE_URL: postgresql://shortener:shortener@postgres:5432/shortener
+      REDIS_URL: redis://redis:6379
+      REDIRECT_CACHE_TTL_SECONDS: 86400
+    ports:
+      - '3100:3000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
