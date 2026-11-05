@@ -10,7 +10,6 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const config = app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
 
-  app.setGlobalPrefix('api');
   app.enableShutdownHooks();
 
   const document = SwaggerModule.createDocument(
