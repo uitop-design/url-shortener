@@ -3,9 +3,10 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 import { ValidationPipe } from './common/pipes/validation.pipe.js';
 import { AppConfigModule } from './config/app-config.module.js';
+import { DatabaseModule } from './database/database.module.js';
 
 @Module({
-  imports: [AppConfigModule],
+  imports: [AppConfigModule, DatabaseModule],
   providers: [
     { provide: APP_PIPE, useClass: ValidationPipe },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
