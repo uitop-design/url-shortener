@@ -4,6 +4,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 import { ValidationPipe } from './common/pipes/validation.pipe.js';
 import { AppConfigModule } from './config/app-config.module.js';
 import { DatabaseModule } from './database/database.module.js';
+import { HealthModule } from './health/health.module.js';
 import { LinksModule } from './links/links.module.js';
 import { RedirectModule } from './redirect/redirect.module.js';
 import { RedisModule } from './redis/redis.module.js';
@@ -14,8 +15,9 @@ import { RedisModule } from './redis/redis.module.js';
     DatabaseModule,
     RedisModule,
     LinksModule,
+    HealthModule,
     RedirectModule,
-    RouterModule.register([{ path: 'api', children: [LinksModule] }]),
+    RouterModule.register([{ path: 'api', children: [LinksModule, HealthModule] }]),
   ],
   providers: [
     { provide: APP_PIPE, useClass: ValidationPipe },
