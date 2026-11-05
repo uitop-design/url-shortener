@@ -4,9 +4,10 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 import { ValidationPipe } from './common/pipes/validation.pipe.js';
 import { AppConfigModule } from './config/app-config.module.js';
 import { DatabaseModule } from './database/database.module.js';
+import { RedisModule } from './redis/redis.module.js';
 
 @Module({
-  imports: [AppConfigModule, DatabaseModule],
+  imports: [AppConfigModule, DatabaseModule, RedisModule],
   providers: [
     { provide: APP_PIPE, useClass: ValidationPipe },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
